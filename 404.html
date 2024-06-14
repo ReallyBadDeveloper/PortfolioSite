@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/404.css" />
+    <title>404</title>
+  </head>
+  <body>
+    <canvas id="blobs"></canvas>
+    <div class="content">
+      <h1>We can't find <a id="route">this directory</a>.</h1>
+      <p>Confirm that the URL is right, then try again.<br>Otherwise, <a href="/">go back to the homepage</a> or stay and watch these blobs.</p>
+    </div>
+
+    <script>
+        // Path determiner
+        var path = '';
+        var splitLoc = window.location.href.split('/');
+        for (var i in splitLoc) {
+            if (i < 3) {
+                path = ''
+            } else {
+                path += `/${splitLoc[i]}`;
+            }
+        }
+      document.getElementById('route').innerText = path;
+      document.getElementById('route').href = path;
+      // Background globs
+      var canvas = document.getElementById('blobs');
+      setInterval(() => {
+        if (canvas.width !== window.innerWidth) {
+            canvas.width = window.innerWidth;
+        }
+        if (canvas.height !== window.innerHeight) {
+            canvas.height = window.innerHeight;
+        }
+      },100);
+      var ctx = canvas.getContext('2d');
+      class GooBlob {
+        constructor() {
+            this.x = Math.random()*window.innerWidth;
+            this.y = Math.random()*window.innerHeight;
+            this.r = Math.floor(Math.random()*25)*10;
+            this.xv = Math.floor(Math.random()*10)/4;
+            this.yv = Math.floor(Math.random()*10)/4;
+        }
+        move() {
+            this.x += this.xv;
+            this.y += this.yv;
+            if (this.x > canvas.width) {
+                this.x = canvas.width
+                this.xv = -this.xv; 
+            }
+            if (this.y > canvas.height) {
+                this.y = canvas.height
+                this.yv = -this.yv; 
+            }
+            if (this.x < 0) {
+                this.x = 0
+                this.xv = -this.xv; 
+            }
+            if (this.y < 0) {
+                this.y = 0
+                this.yv = -this.yv; 
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+      }
+      var gooblobs = [
+        new GooBlob(),
+        new GooBlob(),
+        new GooBlob(),
+        new GooBlob(),
+        new GooBlob(),
+        new GooBlob(),
+        new GooBlob(),
+        new GooBlob(),
+      ]
+      function draw() {
+        ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
+        ctx.fillStyle = '#1f1f1f';
+        for (var i in gooblobs) {
+            gooblobs[i].move();
+            gooblobs[i].draw();
+        }
+      }
+      setInterval(draw,10);
+    </script>
+  </body>
+</html>
