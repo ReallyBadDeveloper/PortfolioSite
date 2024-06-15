@@ -1,1 +1,3 @@
 node_modules
+ip-bans.json
+.env

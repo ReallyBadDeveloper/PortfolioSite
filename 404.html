@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/404.css" />
+    <link rel="icon" type="image/x-icon" href="/media/icon.ico" />
     <title>404</title>
   </head>
   <body>
-    <canvas id="blobs"></canvas>
+    <canvas id="blobs" height="1000" width="2000"></canvas>
     <div class="content">
-      <h1>We can't find <a id="route">this directory</a>.</h1>
-      <p>Confirm that the URL is right, then try again.<br>Otherwise, <a href="/">go back to the homepage</a> or stay and watch these blobs.</p>
+      <h1>We can't find <a id="route">this page</a>.</h1>
+      <p>Confirm that the URL is right, then try again.<br>Otherwise, <a href="/">go back to the homepage</a> or stay and watch these blobs<noscript style="display: inline;"> that you can't see because you turned off JavaScript</noscript>.</p>
     </div>
 
     <script>
@@ -48,20 +49,20 @@
         move() {
             this.x += this.xv;
             this.y += this.yv;
-            if (this.x > canvas.width) {
-                this.x = canvas.width
+            if (this.x + this.r > canvas.width) {
+                this.x = canvas.width - this.r; 
                 this.xv = -this.xv; 
             }
-            if (this.y > canvas.height) {
-                this.y = canvas.height
+            if (this.y + this.r > canvas.height) {
+                this.y = canvas.height - this.r;
                 this.yv = -this.yv; 
             }
-            if (this.x < 0) {
-                this.x = 0
+            if (this.x - this.r < 0) {
+                this.x = 0 + this.r;
                 this.xv = -this.xv; 
             }
-            if (this.y < 0) {
-                this.y = 0
+            if (this.y - this.r < 0) {
+                this.y = 0 + this.r
                 this.yv = -this.yv; 
             }
         }
