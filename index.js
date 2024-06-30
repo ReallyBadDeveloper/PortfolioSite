@@ -5,11 +5,12 @@ const app = express();
 const dotenv = require('dotenv').config();
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
 const port = 443;
 
 const cts = {
-    cert: fs.readFileSync(process.env.CERT_DIR),
-    key: fs.readFileSync(process.env.KEY_DIR)
+    cert: fs.readFileSync(path.join(__dirname, process.env.CERT_DIR)),
+    key: fs.readFileSync(path.join(__dirname, process.env.KEY_DIR))
 }
 
 ipban.init();
