@@ -1,8 +1,9 @@
 const express = require('express');
 const ipban = require('./ipban.js');
+const proxy = require('express-http-proxy');
 const app = express();
 const dotenv = require('dotenv').config();
-const port = 3000;
+const port = 80;
 
 ipban.init();
 
