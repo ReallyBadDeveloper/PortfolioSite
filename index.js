@@ -9,8 +9,8 @@ const path = require('path');
 const port = 443;
 
 const cts = {
-    cert: fs.readFileSync(path.join(__dirname, process.env.CERT_DIR)),
-    key: fs.readFileSync(path.join(__dirname, process.env.KEY_DIR))
+    cert: fs.readFileSync(process.env.CERT_DIR),
+    key: fs.readFileSync(process.env.KEY_DIR)
 }
 
 ipban.init();
