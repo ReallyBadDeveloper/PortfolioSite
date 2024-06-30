@@ -3,7 +3,14 @@ const ipban = require('./ipban.js');
 const proxy = require('express-http-proxy');
 const app = express();
 const dotenv = require('dotenv').config();
-const port = 80;
+const https = require('https');
+const fs = require('fs');
+const port = 443;
+
+const cts = {
+    cert: fs.readFileSync(process.env.CERT_DIR),
+    key: fs.readFileSync(process.env.KEY_DIR)
+}
 
 ipban.init();
 
@@ -71,6 +78,4 @@ app.use((req,res,next) => {
     res.sendFile(__dirname + '/404.html');
 });
 
-app.listen(port, () => {
-    console.debug(`Server listening on port ${port}`);
-})
+https.createServer(cts, app).listen(port)
