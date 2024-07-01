@@ -11,8 +11,8 @@ const { stdout } = require('process')
 const port = 443
 
 const cts = {
-	cert: null,
-	key: null,
+	cert: fs.readFileSync(process.env.CERT_DIR),
+	key: fs.readFileSync(process.env.KEY_DIR),
 }
 
 sudoprompt.exec('cat ' + process.env.CERT_DIR, (stdout,stderr) => {
