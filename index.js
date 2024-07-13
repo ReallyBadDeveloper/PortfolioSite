@@ -8,22 +8,25 @@ const https = require('https')
 const fs = require('fs')
 const path = require('path')
 const { stdout } = require('process')
-const port = 443
+const config = require('./config.json')
+const port = !config.dev ? 443 : 80
 
-const cts = {
-	cert: fs.readFileSync(process.env.CERT_DIR),
-	key: fs.readFileSync(process.env.KEY_DIR),
+if (!config.dev) {
+	const cts = {
+		cert: fs.readFileSync(process.env.CERT_DIR),
+		key: fs.readFileSync(process.env.KEY_DIR),
+	}
+
+	sudoprompt.exec('cat ' + process.env.CERT_DIR, (stdout, stderr) => {
+		if (stderr) throw stderr
+		cts.cert = stdout
+	})
+
+	sudoprompt.exec('cat ' + process.env.KEY_DIR, (stdout, stderr) => {
+		if (stderr) throw stderr
+		cts.key = stdout
+	})
 }
-
-sudoprompt.exec('cat ' + process.env.CERT_DIR, (stdout,stderr) => {
-    if (stderr) throw stderr;
-    cts.cert = stdout;
-})
-
-sudoprompt.exec('cat ' + process.env.KEY_DIR, (stdout,stderr) => {
-    if (stderr) throw stderr;
-    cts.key = stdout;
-})
 
 ipban.init()
 
@@ -98,4 +101,16 @@ app.use((req, res, next) => {
 	res.sendFile(__dirname + '/404.html')
 })
 
-https.createServer(cts, app).listen(port)
+if (config.dev) {
+	app.listen(port, () => {
+		console.log(
+			`HTTP${config.dev ? '' : 'S'} server listening on port ${port}`
+		)
+	})
+} else {
+	https.createServer(cts, app).listen(port, () => {
+		console.log(
+			`HTTP${config.dev ? '' : 'S'} server listening on port ${port}`
+		)
+	})
+}
