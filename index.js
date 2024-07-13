@@ -107,7 +107,7 @@ if (config.dev == true) {
 			`HTTP${config.dev ? '' : 'S'} server listening on port ${port}`
 		)
 	})
-} else {
+} if (config.dev == false) {
 	https.createServer(cts, app).listen(port, () => {
 		console.log(
 			`HTTP${config.dev ? '' : 'S'} server listening on port ${port}`
