@@ -11,7 +11,7 @@ const { stdout } = require('process')
 const config = require('./config.json')
 const port = !config.dev ? 443 : 80
 
-if (!config.dev) {
+if (!config.dev == true) {
 	const cts = {
 		cert: fs.readFileSync(process.env.CERT_DIR),
 		key: fs.readFileSync(process.env.KEY_DIR),
@@ -101,7 +101,7 @@ app.use((req, res, next) => {
 	res.sendFile(__dirname + '/404.html')
 })
 
-if (config.dev) {
+if (config.dev == true) {
 	app.listen(port, () => {
 		console.log(
 			`HTTP${config.dev ? '' : 'S'} server listening on port ${port}`
