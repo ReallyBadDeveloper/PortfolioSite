@@ -11,8 +11,10 @@ const { stdout } = require('process')
 const config = require('./config.json')
 const port = !config.dev ? 443 : 80
 
-if (!config.dev == true) {
-	const cts = {
+var cts;
+
+if (config.dev == false) {
+	cts = {
 		cert: fs.readFileSync(process.env.CERT_DIR),
 		key: fs.readFileSync(process.env.KEY_DIR),
 	}
@@ -55,6 +57,10 @@ app.get('/', (req, res) => {
 		)
 	}
 	res.sendFile(__dirname + `/index.html`)
+})
+
+app.get('/time', (req,res) => {
+	res.send(new Date().toTimeString().split(' ')[0])
 })
 
 app.get('/contact', (req, res) => {

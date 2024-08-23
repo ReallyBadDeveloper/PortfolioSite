@@ -90,3 +90,16 @@ section {
 .content * {
     width: 100%;
 }
+
+.time {
+    background-color: #141414;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100vw - 20px);
+}
+
+.big {
+    font-size: 72px;
+    margin: 0;
+}
